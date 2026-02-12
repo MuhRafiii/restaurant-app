@@ -1,317 +1,329 @@
-🍽 Restaurant App
+# 🍽 Restaurant App (Waiter & Cashier System)
 
 Aplikasi manajemen restoran berbasis:
 
-Backend: Laravel (REST API)
+- Backend: Laravel (REST API)
+- Frontend: React (Vite) + TailwindCSS
+- Database: MySQL
 
-Frontend: React (Vite) + TailwindCSS
+Aplikasi memiliki dua role:
 
-Database: MySQL
+- 👨‍🍳 Pelayan (Waiter)
+- 💰 Kasir (Cashier)
 
-📌 Features
-Backend (API)
+---
 
-Login Multiple Role (Pelayan & Kasir)
+# 📌 Features
 
-CRUD Makanan
+## Backend (API)
 
-List Meja
+- Login Multiple Role (Pelayan & Kasir)
+- CRUD Makanan
+- List Meja
+- Open Order
+- Detail Order
+- Tambah Makanan ke Order
+- Tutup Order
+- List Order (Kasir)
+- Generate Receipt PDF
 
-Open Order
+## Frontend
 
-Detail Order
+- Login
+- Dashboard Meja & Status
+- Master Makanan (Waiter)
+- List Order (Kasir)
+- Detail Order
+- Tambah Menu ke Order
+- Download Receipt PDF
+- Private Route & Role Protection
 
-Tambah Makanan ke Order
+---
 
-Tutup Order
+# 🗂 Project Structure
 
-List Order (Kasir)
-
-Generate Receipt PDF
-
-Frontend
-
-Login
-
-Dashboard Meja & Status
-
-Master Makanan (Waiter)
-
-List Order (Kasir)
-
-Detail Order
-
-Tambah Menu ke Order
-
-Download Receipt PDF
-
-Private Route & Role Protection
-
-🗂 Project Structure
+```
 restaurant-app/
 │
-├── backend/ → Laravel API
-└── frontend/ → React App (Vite)
+├── backend/     → Laravel REST API
+└── frontend/    → React App (Vite + Tailwind)
+```
 
-🚀 BACKEND SETUP (Laravel API)
+---
+
+# 🚀 BACKEND SETUP (Laravel API)
 
 Masuk ke folder backend:
 
+```bash
 cd backend
+```
 
-1️⃣ Install Dependency
+## 1. Install Dependency
+
+```bash
 composer install
+```
 
-2️⃣
+## 2. Install Laravel Sanctum
 
-Lalu atur database di .env:
+Sanctum digunakan untuk authentication berbasis token.
 
+```bash
+composer require laravel/sanctum
+```
+
+Publish config Sanctum:
+
+```bash
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+```
+
+## 3. Install DomPDF
+
+Digunakan untuk generate receipt PDF.
+
+```bash
+composer require barryvdh/laravel-dompdf
+```
+
+## 4. Copy Environment File
+
+```bash
+cp .env.example .env
+```
+
+## 5. Konfigurasi Database
+
+Edit file `.env`:
+
+```
 DB_DATABASE=restaurant_app
 DB_USERNAME=root
 DB_PASSWORD=
+DB_COLLATION=utf8mb4_unicode_ci
+```
 
-3️⃣ Generate App Key
+Pastikan database `restaurant_app` sudah dibuat di MySQL.
+
+## 6. Generate App Key
+
+```bash
 php artisan key:generate
+```
 
-4️⃣ Migration & Seeder
+## 7. Migration & Seeder
+
+```bash
 php artisan migrate
 php artisan db:seed
+```
 
 Seeder akan membuat:
 
-User pelayan
+- User pelayan
+- User kasir
+- Data meja
+- Data makanan
 
-User kasir
+## 8. Jalankan Server
 
-Data meja
-
-5️⃣
-
-6️⃣ Jalankan Server
+```bash
 php artisan serve
+```
 
 Backend berjalan di:
 
+```
 http://localhost:8000
+```
 
-API Base URL:
+Base API URL:
 
+```
 http://localhost:8000/api
+```
 
-🔐 Default Login
+---
 
-Contoh:
+# 🔐 Default Login (Seeder)
 
-Pelayan
+## 👨‍🍳 Pelayan
+
+```
 email: pelayan@test.com
 password: password
+```
 
-Kasir
+## 💰 Kasir
+
+```
 email: kasir@test.com
 password: password
+```
 
-🎨 FRONTEND SETUP (React + Tailwind)
+---
+
+# 🎨 FRONTEND SETUP (React + Tailwind)
 
 Masuk ke folder frontend:
 
+```bash
 cd frontend
+```
 
-1️⃣ Install Dependency
+## 1. Install Dependency
+
+```bash
 npm install
+```
 
-2️⃣ Install TailwindCSS
+## 2. Install TailwindCSS
+
+```bash
 npm install tailwindcss @tailwindcss/vite
+```
 
-Edit vite.config.js
-import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
+Edit `vite.config.js`:
 
-export default defineConfig({
+```js
+import tailwindcss from "@tailwindcss/vite";
+
 plugins: [
-tailwindcss(),
-],
-})
+    react(), tailwindcss(),
+  ],
+```
 
-Edit src/index.css
+Edit `src/index.css`:
+
+```css
 @import "tailwindcss";
+```
 
-Edit index.html
-
-<!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/src/style.css" rel="stylesheet">
-    </head>
-    <body>
-        <h1 class="text-3xl font-bold underline">
-            Hello world!
-        </h1>
-    </body>
-</html>
-
-Pastikan di main.jsx sudah import:
-
-import "./index.css";
-
-3️⃣ Setup Axios Base URL
+## 3. Setup Axios Base URL
 
 File:
 
+```
 src/services/api.js
+```
 
 Pastikan baseURL:
 
-baseURL: "http://localhost:8000/api"
+```js
+baseURL: "http://localhost:8000/api",
+```
 
-4️⃣ Jalankan Frontend
+## 4. Jalankan Frontend
+
+```bash
 npm run dev
+```
 
 Frontend berjalan di:
 
+```
 http://localhost:5173
+```
 
-🔒 Authentication & Route Protection
+---
+
+# 🔒 Authentication & Route Protection
 
 Frontend menggunakan:
 
-LocalStorage untuk token
+- LocalStorage untuk menyimpan token
+- PrivateRoute untuk proteksi halaman
+- Axios interceptor untuk auto logout jika response 401 / 403
 
-PrivateRoute untuk proteksi halaman
+Jika token dihapus atau expired → otomatis redirect ke halaman login.
 
-Axios interceptor untuk auto logout jika 401 / 403
+---
 
-Jika token dihapus atau expired:
-→ otomatis redirect ke /login
+# 👥 Role Access
 
-👥 Role Access
-👨‍🍳 Pelayan
+## 👨‍🍳 Pelayan
 
-Dashboard
+- Dashboard
+- Master Makanan
+- Detail Order
+- Tambah Menu ke Order
+- Tutup Order
 
-Master Makanan
+## 💰 Kasir
 
-Detail Order
+- Dashboard
+- List Order
+- Detail Order
+- Download Receipt PDF
 
-Tambah Menu ke Order
+---
 
-Tutup Order
-
-💰 Kasir
-
-Dashboard
-
-List Order
-
-Detail Order
-
-Download Receipt PDF
-
-🧾 Generate Receipt
+# 🧾 Generate Receipt PDF
 
 Endpoint:
 
+```
 GET /api/orders/{id}/receipt
+```
 
 Frontend akan:
 
-Request sebagai blob
+- Request sebagai blob
+- Otomatis download file PDF
 
-Auto download file PDF
+---
 
-🛠 Tech Stack
-Backend
+# 📦 API Endpoints Summary
 
-Laravel
+| Method | Endpoint             | Description    |
+| ------ | -------------------- | -------------- |
+| POST   | /login               | Login user     |
+| GET    | /tables              | List meja      |
+| GET    | /foods               | List makanan   |
+| POST   | /foods               | Create makanan |
+| PUT    | /foods/{id}          | Update makanan |
+| DELETE | /foods/{id}          | Delete makanan |
+| POST   | /orders/open         | Open order     |
+| GET    | /orders/{id}         | Detail order   |
+| POST   | /orders/{id}/items   | Add item       |
+| POST   | /orders/{id}/close   | Close order    |
+| GET    | /orders              | List order     |
+| GET    | /orders/{id}/receipt | Generate PDF   |
 
-Sanctum (Token Auth)
+---
 
-MySQL
+# 🧪 Development Flow
 
-DomPDF (Receipt)
+1. Login sebagai pelayan
+2. Buka meja kosong
+3. Tambah menu ke order
+4. Tutup order
+5. Login sebagai kasir
+6. Lihat list order
+7. Download receipt PDF
 
-Frontend
+---
 
-React (Vite)
+# ⚙️ Requirements
 
-TailwindCSS
+- PHP >= 8.x
+- Composer
+- Node.js >= 18
+- MySQL
+- XAMPP / Laragon (opsional)
 
-Axios
+---
 
-React Router
+# ✅ Final Checklist
 
-📦 API Endpoints Summary
-Method Endpoint Description
-POST /login Login user
-GET /tables List meja
-GET /foods List makanan
-POST /foods Create makanan
-PUT /foods/{id} Update makanan
-DELETE /foods/{id} Delete makanan
-POST /orders/open Open order
-GET /orders/{id} Detail order
-POST /orders/{id}/items Add item
-POST /orders/{id}/close Close order
-GET /orders List order
-GET /orders/{id}/receipt Generate PDF
-🧪 Development Flow
+- [x] Backend berjalan
+- [x] Migration & Seeder sukses
+- [x] Frontend bisa login
+- [x] Role-based access berjalan
+- [x] Order flow berjalan
+- [x] Receipt PDF bisa didownload
 
-Login sebagai waiter
+---
 
-Buka meja kosong
-
-Tambah menu
-
-Tutup order
-
-Login sebagai cashier
-
-Lihat list order
-
-Download receipt
-
-📝 Commit Convention
-
-Contoh commit yang digunakan:
-
-feat(frontend): dashboard and table status page
-feat(frontend): order and food management pages
-feat(frontend): add private route and auth guard
-feat(frontend): add role-based navbar component
-
-⚙️ Requirements
-
-PHP >= 8.x
-
-Composer
-
-Node.js >= 18
-
-MySQL
-
-XAMPP / Laragon (opsional)
-
-✅ Final Checklist
-
-Backend berjalan
-
-Migration & Seeder sukses
-
-Frontend bisa login
-
-Role-based access berjalan
-
-Order flow berjalan
-
-Receipt PDF bisa didownload
-
-📌 Notes
-
-Pastikan:
-
-Backend running sebelum frontend
-
-Port backend sesuai dengan baseURL di axios
-
-CORS tidak diblokir (Laravel sudah default allow localhost)
+🚀 Project siap dijalankan.
