@@ -200,6 +200,15 @@ Edit `src/index.css`:
 @import "tailwindcss";
 ```
 
+Edit `index.html`:
+Tambahkan link css
+
+```html
+<head>
+  <link href="/src/style.css" rel="stylesheet" />
+</head>
+```
+
 ## 3. Setup Axios Base URL
 
 File:
