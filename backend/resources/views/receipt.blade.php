@@ -19,12 +19,12 @@
         <tr>
             <td>{{ $item->food->name }}</td>
             <td>{{ $item->quantity }}</td>
-            <td>{{ $item->price }}</td>
-            <td>{{ $item->subtotal }}</td>
+            <td>Rp. {{ number_format($item->price, 0, ',', '.') }}</td>
+            <td>Rp. {{ number_format($item->subtotal, 0, ',', '.') }}</td>
         </tr>
         @endforeach
     </table>
     <hr>
-    <h3>Total: {{ $order->total_price }}</h3>
+    <h3>Total: Rp. {{ number_format($order->total_price, 0, ',', '.') }}</h3>
 </body>
 </html>

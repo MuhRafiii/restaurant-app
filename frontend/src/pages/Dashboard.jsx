@@ -12,13 +12,28 @@ export function Dashboard() {
   }, []);
 
   const fetchTables = async () => {
-    const res = await api.get("/tables");
-    setTables(res.data);
+    try {
+      const res = await api.get("/tables");
+      const table = res.data.map((t) => {
+        const activeOrder = t.orders.find((o) => o.status === "open");
+        return {
+          ...t,
+          order: activeOrder,
+        };
+      });
+      setTables(table);
+    } catch (error) {
+      console.error("Error fetching tables:", error);
+    }
   };
 
   const openOrder = async (tableId) => {
-    await api.post("/orders/open", { table_id: tableId });
-    fetchTables();
+    try {
+      await api.post("/orders/open", { table_id: tableId });
+      fetchTables();
+    } catch (error) {
+      console.error("Error opening order:", error);
+    }
   };
 
   return (
@@ -51,8 +66,8 @@ export function Dashboard() {
 
             {table.status === "occupied" && (
               <button
-                onClick={() => navigate(`/orders/${table.active_order_id}`)}
-                className="mt-3 w-full bg-gray-800 text-white py-1 rounded"
+                onClick={() => navigate(`/orders/${table.order.id}`)}
+                className="mt-3 w-full bg-gray-800 text-white py-1 rounded hover:bg-gray-900 cursor-pointer"
               >
                 Detail Order
               </button>

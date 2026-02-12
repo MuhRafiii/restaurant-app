@@ -10,4 +10,9 @@ class Table extends Model
         'number',
         'status',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
