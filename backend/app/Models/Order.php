@@ -14,4 +14,14 @@ class Order extends Model
         'opened_at',
         'closed_at',
     ];
+
+    public function table()
+    {
+        return $this->belongsTo(Table::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }
