@@ -192,6 +192,12 @@ Pastikan baseURL:
 baseURL: "http://localhost:8000/api",
 ```
 
+atau buat file .env:
+
+```
+VITE_API_URL=http://localhost:8000/api
+```
+
 ## 4. Jalankan Frontend
 
 ```bash
