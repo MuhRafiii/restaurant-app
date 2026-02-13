@@ -1,4 +1,4 @@
-# 🍽 Restaurant App (Waiter & Cashier System)
+# 🍽 Restaurant App
 
 Aplikasi manajemen restoran berbasis:
 
@@ -8,8 +8,8 @@ Aplikasi manajemen restoran berbasis:
 
 Aplikasi memiliki dua role:
 
-- 👨‍🍳 Pelayan (Waiter)
-- 💰 Kasir (Cashier)
+- 👨‍🍳 Pelayan
+- 💰 Kasir
 
 ---
 
@@ -71,12 +71,6 @@ Sanctum digunakan untuk authentication berbasis token.
 
 ```bash
 composer require laravel/sanctum
-```
-
-Publish config Sanctum:
-
-```bash
-php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 ```
 
 ## 3. Install DomPDF
@@ -182,31 +176,6 @@ npm install
 
 ```bash
 npm install tailwindcss @tailwindcss/vite
-```
-
-Edit `vite.config.js`:
-
-```js
-import tailwindcss from "@tailwindcss/vite";
-
-plugins: [
-    react(), tailwindcss(),
-  ],
-```
-
-Edit `src/index.css`:
-
-```css
-@import "tailwindcss";
-```
-
-Edit `index.html`:
-Tambahkan link css
-
-```html
-<head>
-  <link href="/src/style.css" rel="stylesheet" />
-</head>
 ```
 
 ## 3. Setup Axios Base URL
